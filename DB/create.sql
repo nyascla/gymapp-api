@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2022-10-20 17:18:58.745
+-- Last modification date: 2022-11-07 18:43:11.674
 
 -- tables
 -- Table: EJERCICIO

@@ -1,36 +1,56 @@
 from pydantic import BaseModel
-
+import datetime
 # Los schema son utilizados por FastAPI para las request y responses
 
-class ItemBase(BaseModel):
-    title: str
-    description: str | None = None
+#Etapas
+class EtapaBase(BaseModel):
+    id: str
+    fehca_ini: datetime.date
+    fecha_fin: datetime.date
+
+    class Config:
+        orm_mode = True
 
 
-class ItemCreate(ItemBase):
+class EtapaCreate(EtapaBase):   
+    pass
+
+class Etapa(EtapaBase):
+    pass
+
+#Sesion
+class SesionGymBase(BaseModel):
+    fecha: datetime.date
+    etapa_id: set
+    plantilla_id: str
+    
+    class Config:
+        orm_mode = True
+
+#Plantilla
+class PlantillaBase(BaseModel):
+    id: str
+    
+    class Config:
+            orm_mode = True
+
+#SeriePlantilla
+class SeriePlantillaBase(BaseModel):
+    pass
+
+class SerieRealizadaBase(BaseModel):
+    pass
+
+#Patron
+class PatronBase(BaseModel):
     pass
 
 
-class Item(ItemBase):
-    id: int
-    owner_id: int
-
-    class Config:
-        orm_mode = True
 
 
-class UserBase(BaseModel):
-    email: str
+#Ejercicio
+class Ejercicio(BaseModel):
+    pass   
 
 
-class UserCreate(UserBase):
-    password: str
 
-
-class User(UserBase):
-    id: int
-    is_active: bool
-    items: list[Item] = []
-
-    class Config:
-        orm_mode = True
