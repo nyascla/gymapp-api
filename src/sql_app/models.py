@@ -3,6 +3,7 @@
 # Alembic -> Transforma los modelos en tablas y relaciones de la bbdd
 # sqlacodegen -> Transforma las tablas y relaciones en clases
 
+# coding: utf-8
 from sqlalchemy import Column, Date, ForeignKey, ForeignKeyConstraint, Integer, String, Table
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
@@ -39,8 +40,6 @@ class EJERCICIO(Base):
 
     PATRON = relationship('PATRON')
     PLANTILLAs = relationship('PLANTILLA', secondary='EJERCICIO_PLANTILLA')
-    SESION_GYM = relationship('SESIONGYM', secondary='EJERCICIO_REALIZADO')
-
 
 class SESIONGYM(Base):
     __tablename__ = 'SESION_GYM'
@@ -59,14 +58,6 @@ t_EJERCICIO_PLANTILLA = Table(
     Column('PLANTILLA_id', ForeignKey('PLANTILLA.id'), primary_key=True, nullable=False)
 )
 
-
-t_EJERCICIO_REALIZADO = Table(
-    'EJERCICIO_REALIZADO', metadata,
-    Column('SESION_GYM_fecha', ForeignKey('SESION_GYM.fecha'), primary_key=True, nullable=False),
-    Column('EJERCICIO_id', ForeignKey('EJERCICIO.id'), primary_key=True, nullable=False)
-)
-
-
 class SERIEPLANTILLA(Base):
     __tablename__ = 'SERIE_PLANTILLA'
     __table_args__ = (
@@ -81,18 +72,3 @@ class SERIEPLANTILLA(Base):
 
     EJERCICIO_PLANTILLA_EJERCICIO = relationship('EJERCICIOPLANTILLA')
 
-
-class SERIEREALIZADA(Base):
-    __tablename__ = 'SERIE_REALIZADA'
-    __table_args__ = (
-        ForeignKeyConstraint(['EJERCICIO_REALIZADO_SESION_GYM_fecha', 'EJERCICIO_REALIZADO_EJERCICIO_id'], ['EJERCICIO_REALIZADO.SESION_GYM_fecha', 'EJERCICIO_REALIZADO.EJERCICIO_id']),
-    )
-
-    id = Column(String(255), primary_key=True)
-    peso = Column(Integer, nullable=False)
-    repeticiones = Column(Integer, nullable=False)
-    rir = Column(Integer, nullable=False)
-    EJERCICIO_REALIZADO_SESION_GYM_fecha = Column(Date, nullable=False)
-    EJERCICIO_REALIZADO_EJERCICIO_id = Column(String(255), nullable=False)
-
-    EJERCICIO_REALIZADO = relationship('EJERCICIOREALIZADO')

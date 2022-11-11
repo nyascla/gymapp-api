@@ -2,7 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from ..dependencies import get_token_header
-from ..sql_app import crud, schemas
+from ..sql_app import schemas
+from ..sql_app.dao import dao_etapas
 from ..dependencies import get_db 
 
 router = APIRouter(
@@ -18,7 +19,7 @@ def get_user():
 
 @router.get("/{etapa_id}", response_model=schemas.Etapa)
 def get_user(etapa_id: str, db: Session = Depends(get_db)):
-    db_etapa = crud.get_etapa(db, etapa_id=etapa_id)
+    db_etapa = dao_etapas.get_etapa(db, etapa_id=etapa_id)
     print("fin")
     if db_etapa is None:
         raise HTTPException(status_code=404, detail="User not found")
@@ -26,8 +27,8 @@ def get_user(etapa_id: str, db: Session = Depends(get_db)):
 
 @router.post("/", response_model=schemas.Etapa)
 def create_user(etapa: schemas.EtapaCreate, db: Session = Depends(get_db)):
-    db_etapa = crud.get_etapa(db, etapa_id=etapa.id)
+    db_etapa = dao_etapas.get_etapa(db, etapa_id=etapa.id)
     if db_etapa:
         raise HTTPException(status_code=400, detail="Email already registered")
-    return crud.create_etapa(etapa=etapa, db=db)
+    return dao_etapas.create_etapa(etapa=etapa, db=db)
 

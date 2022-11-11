@@ -3,7 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from .dependencies import get_query_token
-from .routers import etapas, items
+from .routers import etapas, sesiones
 from .sql_app import models
 from .sql_app.database import engine
 
@@ -13,7 +13,7 @@ models.Base.metadata.create_all(bind=engine)
 # dependencies=[Depends(get_query_token)]
 app = FastAPI()
 app.include_router(etapas.router)
-app.include_router(items.router)
+app.include_router(sesiones.router)
 
 # COMPILADO
 # app.mount("./dist/static", StaticFiles(directory="./dist/static"), name="static")
