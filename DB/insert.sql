@@ -1,28 +1,31 @@
--- INSERT EJERCICIO;
-INSERT INTO EJERCICIO (id,PATRON_id)
-VALUES
-    ("pb",	"push"),
-    ("pm",	"push");
-
 -- INSERT PATRON;
-INSERT INTO PATRON (id)
+INSERT INTO patron (nombre)
 VALUES
     ("push"),
     ("pull"),
     ("leg");
 
+-- INSERT EJERCICIO;
+INSERT INTO ejercicio (nombre,PATRON_nombre)
+VALUES
+    ("pres banca", "push"),
+    ("pres mancuerna", "push"),
+    ("remo", "pull"),
+    ("dominadas", "pull"),
+    ("sentadilla", "leg"),
+    ("peso muerto", "leg");
 
--- DROP TABLE EJERCICIO_PLANTILLA;
+-- INSERT SESION;
+INSERT INTO sesion (fecha)
+VALUES
+    ("2022-10-20");
 
--- DROP TABLE EJERCICIO_REALIZADO;
+-- INSERT SESION;
+INSERT INTO ejercicio_sesion (EJERCICIO_nombre, SESION_fecha)
+VALUES
+    ("pres banca", "2022-10-20");
 
--- DROP TABLE ETAPA;
-
-
--- DROP TABLE PLANTILLA;
-
--- DROP TABLE SERIE_PLANTILLA;
-
--- DROP TABLE SERIE_REALIZADA;
-
--- DROP TABLE SESION_GYM;
+-- INSERT SESION;
+INSERT INTO serie (numero, peso, repes, rir, EJERCICIO_S_nombre, EJERCICIO_S_fecha)
+VALUES
+    (1, 100, 5, 9, "pres banca", "2022-10-20");
