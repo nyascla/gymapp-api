@@ -36,12 +36,17 @@ class EjercicioSesion(BaseModel):
     class Config:
         orm_mode = True
 
-#Patron
+#Serie
+class SerieFromClient(BaseModel):
+    peso: str
+    repeticiones: str
+    rir: str
+
 class SerieCreate(BaseModel):
     numero: int
-    peso: int
-    repes: int
-    rir: int
+    peso: str
+    repeticiones: str
+    rir: str
     
 class Serie(SerieCreate):
     EJERCICIO_S_nombre: str

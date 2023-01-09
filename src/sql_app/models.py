@@ -52,14 +52,15 @@ class Serie(Base):
         ForeignKeyConstraint(['EJERCICIO_S_nombre', 'EJERCICIO_S_fecha'], ['ejercicio_sesion.EJERCICIO_nombre', 'ejercicio_sesion.SESION_fecha']),
     )
     numero = Column(Integer, primary_key=True)
-    peso = Column(Integer, nullable=False)
-    repes = Column(Integer, nullable=False)
-    rir = Column(Integer, nullable=False)
+    peso = Column(String, nullable=False)
+    repeticiones = Column(String, nullable=False)
+    rir = Column(String, nullable=False)
 
-    EJERCICIO_S_nombre = Column(String, primary_key=True)
-    EJERCICIO_S_fecha = Column(String, primary_key=True)
+    EJERCICIO_S_nombre = Column(String)
+    EJERCICIO_S_fecha = Column(String)
     
     ejercicioSesion = relationship('EjercicioSesion', back_populates="series")
+    sqlite_autoincrement=True
 
 # class SERIEPLANTILLA(Base):
 #     __tablename__ = 'SERIE_PLANTILLA'
