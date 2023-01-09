@@ -11,3 +11,5 @@
 - │   └── internal         # "internal" is a "Python subpackage"
 - │       ├── __init__.py  # makes "internal" a "Python subpackage"
 - │       └── admin.py     # "admin" submodule, e.g. import app.internal.
+
+nuevo punto
