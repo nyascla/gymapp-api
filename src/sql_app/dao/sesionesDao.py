@@ -29,11 +29,13 @@ def createEjercicio(db: Session, ejercicio: str, fecha: date):
     return db_sesion
 
 
-def getSessions(db: Session, exercise: str):                                                            #all
-    return db.query(models.EjercicioSesion).filter(models.EjercicioSesion.EJERCICIO_nombre == exercise).first()
+def getSessions(db: Session, exercise: str):                                                            
+    return db.query(models.EjercicioSesion).filter(models.EjercicioSesion.EJERCICIO_nombre == exercise).all()
 
 def getSets(db: Session, exercise: str, date: date):
-    return db.query(models.Serie).filter(models.Serie.EJERCICIO_S_fecha == date).filter(models.Serie.EJERCICIO_S_nombre == exercise).all()
+    return db.query(models.Serie).filter(
+        models.Serie.EJERCICIO_S_fecha == date).filter(
+            models.Serie.EJERCICIO_S_nombre == exercise).all()
 
 def createSerie(db: Session, ejercicio: schemas.EjercicioSesion, serie: schemas.SerieCreate):
     db_sesion = models.Serie(numero=None,
@@ -46,3 +48,5 @@ def createSerie(db: Session, ejercicio: schemas.EjercicioSesion, serie: schemas.
     return db_sesion
 
 
+def getChartLabels(db: Session, exercise: str):                                                            
+    return db.query(models.EjercicioSesion).filter(models.EjercicioSesion.EJERCICIO_nombre == exercise).offset(0).limit(5).all()

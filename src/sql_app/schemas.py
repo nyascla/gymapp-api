@@ -28,7 +28,8 @@ class Sesion(SesionBase):
     class Config:
         orm_mode = True
 
-#Patron
+
+
 class EjercicioSesion(BaseModel):
     EJERCICIO_nombre: str
     SESION_fecha: datetime.date
@@ -54,3 +55,13 @@ class Serie(SerieCreate):
     
     class Config:
         orm_mode = True
+
+#Exercises
+class ExerciseWithSets(BaseModel):
+    exerciseName: str
+    sessionDate: datetime.date
+    sets: list[Serie]
+
+    class Config:
+        orm_mode = True
+
