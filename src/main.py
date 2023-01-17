@@ -15,13 +15,12 @@ app = FastAPI()
 app.include_router(sesiones.router)
 app.include_router(ejercicios.router)
 
-# COMPILADO
-# app.mount("./dist/static", StaticFiles(directory="./dist/static"), name="static")
-# templates = Jinja2Templates(directory="./dist/templates")
-# ROOT
-#@app.get("/")
-#async def root(request: Request):
-#    return templates.TemplateResponse("./dist/index.html", {"request": request})
+templates = Jinja2Templates(directory="templates")
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+@app.get("/")
+async def root(request: Request):
+   return templates.TemplateResponse("index.html", {"request": request})
 
 
 
