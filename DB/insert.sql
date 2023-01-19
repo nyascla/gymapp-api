@@ -1,19 +1,23 @@
 -- INSERT PATRON;
-INSERT INTO patron (nombre)
+INSERT INTO patterns (pattern_name)
 VALUES
-    ("push"),
-    ("pull"),
-    ("leg");
+    ("Push"),
+    ("Pull"),
+    ("Leg");
 
 -- INSERT EJERCICIO;
-INSERT INTO ejercicio (nombre,PATRON_nombre)
+INSERT INTO exercises (exercise_name, FK_exercise_pattern)
 VALUES
-    ("pres banca", "push"),
-    ("pres mancuerna", "push"),
-    ("remo", "pull"),
-    ("dominadas", "pull"),
-    ("sentadilla", "leg"),
-    ("peso muerto", "leg");
+    ("Bench Press", "Push"),
+    ("Dumbbells Press", "Push"),
+    ("Barbell Row", "Pull"),
+    ("Pull-Ups", "Pull"),
+    ("Squat", "Leg"),
+    ("Deadlift", "Leg");
+
+
+
+
 
 -- INSERT SESION;
 INSERT INTO sesion (fecha)

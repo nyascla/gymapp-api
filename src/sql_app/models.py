@@ -12,88 +12,51 @@ Base = declarative_base()
 metadata = Base.metadata
 
 # Agrupacion de ejercicicos
-class Patron(Base):
-    __tablename__ = 'patron'
+class Patterns(Base):
+    __tablename__ = 'patterns'
 
-    nombre = Column(String(255), primary_key=True)
+    pattern_name = Column(String(255), primary_key=True)
 
 # Ejercicio 
-class Ejercicio(Base):
-    __tablename__ = 'ejercicio'
+class Exercises(Base):
+    __tablename__ = 'exercises'
 
-    nombre = Column(String(255), primary_key=True)
-    PATRON_nombre = Column(String, ForeignKey('patron.nombre'))
+    exercise_name = Column(String(255), primary_key=True)   
+    FK_exercise_pattern = Column(String, ForeignKey('patterns.pattern_name'))
 
-    patron = relationship('Patron')
-    sesiones = relationship('EjercicioSesion', back_populates="ejercicio")
+    patterns = relationship('Patterns')
+    sessions = relationship('ExercisesSessions', back_populates="exercises")
 
 # Representa un dia de entreno 
-class Sesion(Base):
-    __tablename__ = 'sesion'
+class Sessions(Base):
+    __tablename__ = 'sessions'
 
-    fecha = Column(Date, primary_key=True)
+    session_date = Column(Date, primary_key=True)
 
-    ejercicios = relationship('EjercicioSesion', back_populates="sesion")
+    exercises = relationship('ExercisesSessions', back_populates="sessions")
 
 # Representa un ejercicio en una sesion
-class EjercicioSesion(Base):
-    __tablename__ = 'ejercicio_sesion'
+class ExercisesSessions(Base):
+    __tablename__ = 'exercises_sessions'
 
-    EJERCICIO_nombre = Column(ForeignKey('ejercicio.nombre'), primary_key=True)
-    SESION_fecha = Column(ForeignKey('sesion.fecha'), primary_key=True)
+    FK_session_exercise = Column(ForeignKey('exercises.exercise_name'), primary_key=True)
+    FK_session_date = Column(ForeignKey('sessions.session_date'), primary_key=True)
 
-    ejercicio = relationship('Ejercicio', back_populates="sesiones")
-    sesion = relationship('Sesion', back_populates="ejercicios")
-    series = relationship('Serie', back_populates="ejercicioSesion")
+    exercises = relationship('Exercises', back_populates="sessions")
+    sessions = relationship('Sessions', back_populates="exercises")
+    sets = relationship('Sets', back_populates="exercises_sessions")
 
-class Serie(Base):
-    __tablename__ = 'serie'
+class Sets(Base):
+    __tablename__ = 'sets'
     __table_args__ = (
-        ForeignKeyConstraint(['EJERCICIO_S_nombre', 'EJERCICIO_S_fecha'], ['ejercicio_sesion.EJERCICIO_nombre', 'ejercicio_sesion.SESION_fecha']),
+        ForeignKeyConstraint(['FK_set_session_exercise', 'FK_set_session_date'], ['exercises_sessions.FK_session_exercise', 'exercises_sessions.FK_session_date']),
     )
-    numero = Column(Integer, primary_key=True)
-    peso = Column(String, nullable=False)
-    repeticiones = Column(String, nullable=False)
-    rir = Column(String, nullable=False)
-
-    EJERCICIO_S_nombre = Column(String)
-    EJERCICIO_S_fecha = Column(String)
+    set_number = Column(Integer, primary_key=True)
+    set_weight = Column(String, nullable=False)
+    set_repetitions = Column(String, nullable=False)
+    set_rir = Column(String, nullable=False)
+    FK_set_session_exercise = Column(String)
+    FK_set_session_date = Column(Date)
     
-    ejercicioSesion = relationship('EjercicioSesion', back_populates="series")
+    exercises_sessions = relationship('ExercisesSessions', back_populates="sets")
     sqlite_autoincrement=True
-
-# class SERIEPLANTILLA(Base):
-#     __tablename__ = 'SERIE_PLANTILLA'
-#     __table_args__ = (
-#         ForeignKeyConstraint(['EJERCICIO_PLANTILLA_EJERCICIO_id', 'EJERCICIO_PLANTILLA_PLANTILLA_id'], ['EJERCICIO_PLANTILLA.EJERCICIO_id', 'EJERCICIO_PLANTILLA.PLANTILLA_id']),
-#     )
-
-#     id = Column(String(255), primary_key=True)
-#     repeticiones = Column(Integer, nullable=False)
-#     rir = Column(Integer, nullable=False)
-#     EJERCICIO_PLANTILLA_EJERCICIO_id = Column(String(255), nullable=False)
-#     EJERCICIO_PLANTILLA_PLANTILLA_id = Column(String(255), nullable=False)
-
-#     EJERCICIO_PLANTILLA_EJERCICIO = relationship('EJERCICIO', secondary=t_EJERCICIO_PLANTILLA)
-
-# t_EJERCICIO_PLANTILLA = Table(
-#     'EJERCICIO_PLANTILLA', metadata,
-#     Column('EJERCICIO_id', ForeignKey('EJERCICIO.id'), primary_key=True, nullable=False),
-#     Column('PLANTILLA_id', ForeignKey('PLANTILLA.id'), primary_key=True, nullable=False)
-# )
-
-# class PLANTILLA(Base):
-#     __tablename__ = 'PLANTILLA'
-
-#     id = Column(String(255), primary_key=True)
-
-#     SESIONGYM = relationship("SESIONGYM", back_populates="PLANTILLA")
-
-# class ETAPA(Base):
-#     __tablename__ = 'ETAPA'
-
-#     id = Column(String(255), primary_key=True)
-#     fehca_ini = Column(Date, nullable=False)
-#     fecha_fin = Column(Date, nullable=False)
-
-#     SESIONGYM = relationship("SESIONGYM", back_populates="ETAPA")
