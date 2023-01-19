@@ -23,7 +23,13 @@ async def root(request: Request):
    return templates.TemplateResponse("index.html", {"request": request})
 
 
+# Instalar dependencias
+#
+# pip install -r requirements.txt
+#
 
-# DEV
+#
+# Levantar servidor
+#
 # uvicorn src.main:app --reload
 # uvicorn src.main:app --host 192.168.1.133 --port 9876
