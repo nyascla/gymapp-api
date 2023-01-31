@@ -1,3 +1,5 @@
+import time
+
 from fastapi import Depends, FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -22,6 +24,12 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 async def root(request: Request):
    return templates.TemplateResponse("index.html", {"request": request})
 
+
+while True:
+    # Tu función
+    print("Ejecutando función...")
+    # Detener ejecución durante 30 minutos
+    time.sleep(30)
 
 # Instalar dependencias
 #

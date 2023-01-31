@@ -34,9 +34,21 @@ def createSet(db: Session, exercise: str, date: date, createSet: Client.CreateSe
     db.refresh(db_set)
     return db_set
 
-def getSesion(db: Session, date: date):
+def getSession(db: Session, date: date):
     return db.query(models.Sessions).filter(models.Sessions.session_date == date).first()
+#
+#
+#
+def getSessions(db: Session):
+    return db.query(models.Sessions).all()
 
+def getExercisesSession(db: Session, session: date):                                                            
+    return db.query(models.ExercisesSessions).filter(
+        models.ExercisesSessions.FK_session_date == session).all()
+
+#
+#
+#
 def getExerciseSessionToday(db: Session, excercice_name: str, date: date):
     return db.query(models.ExercisesSessions).filter(
         models.ExercisesSessions.FK_session_date == date).filter(
@@ -55,7 +67,6 @@ def calculateValueSet(sets: list[SQLite.Sets]):
     value_list = [int(set.set_weight) / (1.0278 - 0.0278 * int(set.set_repetitions)) for set in sets]
     return sum(value_list)/len(value_list)   
     
-
 def getSessionsWithSets(db: Session, exercise: str):                                                            
     db_exercise_sessions = getExerciseSessions(db, exercise)
 
