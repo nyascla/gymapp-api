@@ -11,8 +11,11 @@ class Pattern(SQLite):
 
 class Exercises(SQLite):
     exercise_name: str
-    FK_exercise_pattern: str   
-    
+    FK_exercise_pattern: str
+
+class ExercisesNames(SQLite):
+    exercise_name: str
+
 class Sessions(SQLite):
     session_date: datetime.date
     
@@ -26,4 +29,18 @@ class Sets(SQLite):
     set_repetitions: str
     set_rir: str 
     FK_set_session_exercise: str
-    FK_set_session_date: datetime.date 
+    FK_set_session_date: datetime.date
+
+class ChartData(BaseModel):
+    labels: list[str]
+    data: list[int]
+
+class SetData(BaseModel):
+    exercise: str
+    weight: str
+    repetitions: str
+    rir: str
+
+class SessionWithSets(BaseModel):
+    session_date: datetime.date
+    sets: list[Sets]

@@ -20,7 +20,7 @@ VALUES
 
 
 -- INSERT SESION;
-INSERT INTO sesion (fecha)
+INSERT INTO sessions (session_date)
 VALUES
     ("2022-10-20");
 
