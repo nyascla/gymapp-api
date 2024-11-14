@@ -1,66 +1,74 @@
-from sqlalchemy import Column, Date, ForeignKey, ForeignKeyConstraint, Integer, String
-from sqlalchemy.orm import relationship, backref
+import uuid
+from sqlalchemy import Column, Date, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
 
 # Declaración base para los modelos
 Base = declarative_base()
 metadata = Base.metadata
 
-# Modelo que representa la agrupación de ejercicios (Patrones)
-class Patterns(Base):
+class User(Base):
+    __tablename__ = 'users'
+
+    name = Column(String(255), primary_key=True)
+    password = Column(String(255))
+
+    # Relaciones
+    sessions = relationship("Session", back_populates="user_relation")
+
+class Pattern(Base):
     __tablename__ = 'patterns'
 
-    pattern_name = Column(String(255), primary_key=True)  # Nombre del patrón como clave primaria
+    name = Column(String(255), primary_key=True)
 
-# Modelo que representa un ejercicio específico
-class Exercises(Base):
+    # Relaciones
+    exercises = relationship('Exercise', back_populates='pattern_relation')
+
+class Exercise(Base):
     __tablename__ = 'exercises'
 
-    exercise_name = Column(String(255), primary_key=True)  # Nombre del ejercicio como clave primaria
-    FK_exercise_pattern = Column(String, ForeignKey('patterns.pattern_name'))  # Relación con el patrón
+    name = Column(String(255), primary_key=True)
+    pattern = Column(String, ForeignKey('patterns.name'))
 
     # Relaciones
-    patterns = relationship('Patterns')  # Relación con el patrón de ejercicios
-    sessions = relationship('ExercisesSessions', back_populates="exercises")  # Relación con sesiones de ejercicios
+    pattern_relation = relationship('Pattern', back_populates='exercises')
+    sessions = relationship('ExerciseSession', back_populates='exercise')
 
-# Modelo que representa una sesión (un día de entrenamiento)
-class Sessions(Base):
+class Session(Base):
     __tablename__ = 'sessions'
 
-    session_date = Column(Date, primary_key=True)  # Fecha de la sesión como clave primaria
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    date = Column(Date)
+    user = Column(String, ForeignKey('users.name'))
 
     # Relaciones
-    exercises = relationship('ExercisesSessions', back_populates="sessions")  # Relación con ejercicios en sesiones
+    user_relation = relationship('User', back_populates="sessions")
+    exercises = relationship('ExerciseSession', back_populates='session')
 
-# Modelo que representa la relación entre un ejercicio y una sesión
-class ExercisesSessions(Base):
+class ExerciseSession(Base):
     __tablename__ = 'exercises_sessions'
 
-    FK_session_exercise = Column(ForeignKey('exercises.exercise_name'), primary_key=True)  # Clave foránea a ejercicios
-    FK_session_date = Column(ForeignKey('sessions.session_date'), primary_key=True)  # Clave foránea a sesiones
+    # Nuevo ID único para simplificar las relaciones
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    session_id = Column(String(36), ForeignKey('sessions.id'))
+    exercise_name = Column(String(255), ForeignKey('exercises.name'))
 
-    # Relaciones
-    exercises = relationship('Exercises', back_populates="sessions")  # Relación con el ejercicio
-    sessions = relationship('Sessions', back_populates="exercises")  # Relación con la sesión
-    sets = relationship('Sets', back_populates="exercises_sessions")  # Relación con las series realizadas
+    # Relación con los sets
+    sets = relationship('Set', back_populates='exercise_session')
 
-# Modelo que representa una serie de un ejercicio dentro de una sesión
-class Sets(Base):
+    # Relación con Exercise y Session
+    exercise = relationship('Exercise', back_populates='sessions')
+    session = relationship('Session', back_populates='exercises')
+
+class Set(Base):
     __tablename__ = 'sets'
-    __table_args__ = (
-        ForeignKeyConstraint(
-            ['FK_set_session_exercise', 'FK_set_session_date'],
-            ['exercises_sessions.FK_session_exercise', 'exercises_sessions.FK_session_date']
-        ),
-    )
 
-    set_number = Column(Integer, primary_key=True)  # Número de la serie como clave primaria
-    set_weight = Column(String, nullable=False)  # Peso usado en la serie
-    set_repetitions = Column(String, nullable=False)  # Repeticiones realizadas en la serie
-    set_rir = Column(String, nullable=False)  # RIR (Repeticiones en reserva)
-    FK_set_session_exercise = Column(String)  # Clave foránea al ejercicio de la sesión
-    FK_set_session_date = Column(Date)  # Clave foránea a la fecha de la sesión
+    id = Column(Integer, primary_key=True, autoincrement=True)  # ID único para la tabla
+    exercise_session_id = Column(String(36), ForeignKey('exercises_sessions.id'), nullable=False)
+    set_number = Column(Integer)  # Este será el número del set, que se establecerá en el trigger
+    repetitions = Column(Integer)
+    weight = Column(Integer)
+    rir = Column(Integer)
 
     # Relaciones
-    exercises_sessions = relationship('ExercisesSessions', back_populates="sets")  # Relación con la sesión de ejercicio
-    sqlite_autoincrement = True  # Para asegurarse de que la clave primaria se autoincremente en SQLite
+    exercise_session = relationship('ExerciseSession', back_populates='sets')

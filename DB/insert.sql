@@ -1,35 +1,24 @@
--- INSERT PATRON;
-INSERT INTO patterns (pattern_name)
-VALUES
-    ("Push"),
-    ("Pull"),
-    ("Leg");
+INSERT INTO users (name, password)
+VALUES ("test_usuario", "test_pas");
 
--- INSERT EJERCICIO;
-INSERT INTO exercises (exercise_name, FK_exercise_pattern)
-VALUES
-    ("Bench Press", "Push"),
-    ("Dumbbells Press", "Push"),
-    ("Barbell Row", "Pull"),
-    ("Pull-Ups", "Pull"),
-    ("Squat", "Leg"),
-    ("Deadlift", "Leg");
+INSERT INTO patterns (name)
+VALUES ("Push");
+VALUES ("Pull");
+VALUES ("Legs");
+
+INSERT INTO exercises (name, pattern)
+VALUES ("Bench Press", "Push");
+VALUES ("Squad", "Legs");
+VALUES ("Pull-Ups", "Pull");
+VALUES ("Shoulder Pres", "Push");
 
 
+INSERT INTO sessions (id, date, user)
+VALUES ("a", "2022-10-20", "test_usuario");
 
+INSERT INTO exercises_sessions (id, session_id, exercise_name)
+VALUES ("bbb", "a", "Bench Press");
 
+INSERT INTO sets (exercise_session_id, repetitions, weight, rir)
+VALUES ("bbb", 5, 50, 2);
 
--- INSERT SESION;
-INSERT INTO sessions (session_date)
-VALUES
-    ("2022-10-20");
-
--- INSERT SESION;
-INSERT INTO ejercicio_sesion (EJERCICIO_nombre, SESION_fecha)
-VALUES
-    ("pres banca", "2022-10-20");
-
--- INSERT SESION;
-INSERT INTO serie (numero, peso, repes, rir, EJERCICIO_S_nombre, EJERCICIO_S_fecha)
-VALUES
-    (1, 100, 5, 9, "pres banca", "2022-10-20");

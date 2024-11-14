@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 class DataBaseApi(ABC):
 
     @abstractmethod
-    def get_today_session(self, db, date):
+    def post_today_session(self, db, date, token):
         pass
 
     @abstractmethod
@@ -11,11 +11,20 @@ class DataBaseApi(ABC):
         pass
 
     @abstractmethod
-    def put_set(self, db, create_set, date):
+    def post_set(self, db, create_set, date, token):
         pass
 
     @abstractmethod
-    def get_exercise_sessions(self, db, exercise):
+    def get_exercise_sessions(self, db, exercise, token):
         pass
+
+    @abstractmethod
+    def post_user(self, db, user, password):
+        pass
+
+    @abstractmethod
+    def get_user(self, db, user):
+        pass
+
 
 
