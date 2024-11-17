@@ -66,14 +66,14 @@ class SqlDao:
 
         r = []
         for session in db_user.sessions:
-            print(session.id)
             db_exercises_sessions = db.query(models.ExerciseSession)
             db_exercises_sessions = db_exercises_sessions.filter(models.ExerciseSession.session_id == session.id)
             db_exercises_sessions = db_exercises_sessions.filter(models.ExerciseSession.exercise_name == exercise).first()
-            print(db_exercises_sessions.session_id)
-            r.append({
-                'session': self._get_sessions_id_date(db, db_exercises_sessions.session_id),
-                'sets': db_exercises_sessions.sets})
+
+            if db_exercises_sessions:
+                r.append({
+                    'session': self._get_sessions_id_date(db, db_exercises_sessions.session_id),
+                    'sets': db_exercises_sessions.sets})
 
         return r
 
@@ -110,13 +110,9 @@ class SqlDao:
 
 def test_db():
     x = SqlDao().post_user(Depends(get_sqlite), "test", "test")
-    print(x)
     x = SqlDao().get_user(Depends(get_sqlite), "test")
-    print(x)
     # x = SqlDao().get_today_session(get_sqlite(), datetime.today(), "a")
-    # print(x)
     # x = SqlDao().get_exercises(get_sqlite())
-    # print(x)
 
     # SqlDao().put_set(get_sqlite())
     # SqlDao().get_exercise_sessions()
