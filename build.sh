@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SERVER="."
-WEB="../Web-Cortina"
+WEB="../gymapp-web"
 
 #######################################
 #
