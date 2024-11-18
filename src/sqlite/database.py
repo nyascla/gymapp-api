@@ -37,7 +37,8 @@ def triggers(_engine):
         with _engine.connect() as conn:
             conn.execute(text(trigger_sql))
     except Exception as e:
-        pass
+        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        print(e)
 
 
 def inserts(_engine):
@@ -63,4 +64,5 @@ def inserts(_engine):
             conn.execute(text(insert_exercises))
 
     except Exception as e:
-        pass
+        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        print(e)
