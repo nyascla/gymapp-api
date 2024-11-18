@@ -1,0 +1,3 @@
+- [ ] que la base de datos sea persistente entre dockers
+- [ ] pasar a python3.13
+- [ ] mirar las vulnerabilidades que ensenya youtube
