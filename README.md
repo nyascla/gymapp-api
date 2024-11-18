@@ -19,7 +19,7 @@ pip install -r requirements.txt
 ```
 #### 4. Lanzar el servidor
 ```
-uvicorn main:app --reload
+python -m uvicorn main:app --reload
 ```
 #### 4.1 Opcion para indicar puerto
 ```
