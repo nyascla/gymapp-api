@@ -8,11 +8,10 @@ from starlette.middleware.cors import CORSMiddleware
 from src.routes import auth
 from src.routes import exercise
 from src.sqlite import models
-from src.sqlite.database import engine, triggers, inserts
+from src.sqlite.database import engine
 
 models.Base.metadata.create_all(bind=engine)
-triggers(engine)
-inserts(engine)
+models.init()
 
 app = FastAPI()
 app.include_router(exercise.router)
