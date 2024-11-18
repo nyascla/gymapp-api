@@ -2,11 +2,11 @@
 
 Este proyecto consiste en el desarrollo de un servidor de aplicaciones multiusuario que permite a los usuarios registrar y realizar un seguimiento de sus sesiones de entrenamiento. La aplicación generará gráficos para visualizar el progreso de los usuarios y proporcionará recomendaciones sobre el peso que deberían mover en futuros entrenamientos para seguir progresando.
 
-## python verion: 3.12
+## python verion: 3.13
 
 #### 1. Crear un entorno
 ```
-python3.12 -m venv venv 
+virtualenv -p python3.13 myenv
 ```
 #### 2. Activar el entorno
 
