@@ -1,13 +1,12 @@
-from datetime import datetime
+import os
 
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.cors import CORSMiddleware
 
-from src.routes import exercise
 from src.routes import auth
-
+from src.routes import exercise
 from src.sqlite import models
 from src.sqlite.database import engine, triggers, inserts
 
@@ -27,13 +26,13 @@ app.add_middleware(
     allow_headers=["*"],  # Permitir todos los headers
 )
 
+if not os.path.exists("./static"):
+    os.makedirs("./static")
+
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
-
 
 
 @app.get("/")
 async def root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
-
-
