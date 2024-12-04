@@ -11,7 +11,7 @@ virtualenv -p python3.13 myenv
 #### 2. Activar el entorno
 
 ```
-source venv/bin/activate 
+source myenv/bin/activate 
 ```
 #### 3. Instalar dependencias
 ```

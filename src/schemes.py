@@ -35,7 +35,6 @@ class ExercisesSessions(SQLite):
 class Sets(SQLite):
     id: int
     exercise_session_id: str
-    set_number: int
     repetitions: int
     weight: int
     rir: int
@@ -47,7 +46,6 @@ class ChartData(BaseModel):
 
 
 class SetData(BaseModel):
-    session_id: str
     exercise_name: str
     weight: str
     repetitions: str
@@ -67,3 +65,17 @@ class User(BaseModel):
 class Token(BaseModel):
     access_token: str
     token_type: str
+
+
+class Subtable(BaseModel):
+    headers: list[str]
+    rows: list[list[str]]
+
+
+class Row(BaseModel):
+    title: str
+    subtable: Subtable
+
+
+class LastEntrene(BaseModel):
+    rows: list[Row]

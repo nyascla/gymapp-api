@@ -9,9 +9,11 @@ from src.routes import auth
 from src.routes import exercise
 from src.sqlite import models
 from src.sqlite.database import engine
+from src.sqlite.dao import sql_init
+
 
 models.Base.metadata.create_all(bind=engine)
-models.init()
+sql_init.init()
 
 app = FastAPI()
 app.include_router(exercise.router)

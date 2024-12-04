@@ -2,7 +2,9 @@
 
 __pycache__
 
-/gymapp-api-v1.tar
-/DB/sql_database.db
+*.log
+*.tar
+*.db
+
 /venv/
 /myenv/
