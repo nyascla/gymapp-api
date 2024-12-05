@@ -1,0 +1,9 @@
+services:
+  app:
+    image: gymapp-api-v1:latest 
+    container_name: gymapp
+    volumes:
+      - /home/pctorre/projects/gymapp/gymapp-api/DB/docker:/app/DB
+    ports:
+      - "8001:8001"
+

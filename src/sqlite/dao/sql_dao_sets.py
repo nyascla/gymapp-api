@@ -91,3 +91,43 @@ def get_sets(db, user_name: str, exercise_name: str, today: bool):
         })
 
     return sets
+
+
+def get_all_sets(db, exercise_name: str, token: str):
+    user_name = sql_dao_users.check_token(db, token)
+
+    if not user_name:
+        return None
+
+    try:
+        # Consulta para obtener los sets que coinciden con el usuario y el ejercicio
+        sets_query = db.query(models.Set).filter(
+            models.Set.user_name == user_name,
+            models.Set.exercise_name == exercise_name
+        ).order_by(models.Set.date).all()
+
+        # Agrupar los sets por fecha
+        grouped_sets = {}
+        for s in sets_query:
+            date_key = s.date.isoformat() if s.date else "unknown_date"
+            if date_key not in grouped_sets:
+                grouped_sets[date_key] = {
+                    "date": date_key,
+                    "exercise_name": s.exercise_name,
+                    "sets": []
+                }
+            grouped_sets[date_key]["sets"].append({
+                "id": s.id,
+                "repetitions": s.repetitions,
+                "weight": s.weight,
+                "rir": s.rir
+            })
+
+        # Convertir el diccionario agrupado en una lista
+        result = list(grouped_sets.values())
+        return result
+
+    except Exception as e:
+        # Manejo de errores
+        print(f"Error al obtener sets: {e}")
+        return {"error": "No se pudo obtener los sets. Verifique los datos proporcionados."}

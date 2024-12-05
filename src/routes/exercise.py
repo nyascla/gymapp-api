@@ -45,3 +45,16 @@ def get_exercises(
         raise HTTPException(status_code=401, detail="Invalid authentication credentials")
 
     return result
+
+@router.get("/get_all_sets/{exercise}/", response_model=None)
+def get_exercises(
+        exercise: str,  # Captura del parámetro de la ruta
+        db: Session = Depends(get_sqlite),
+        token: str = Depends(oauth2_scheme)
+):
+    result = sql_dao_sets.get_all_sets(db, exercise, token)
+
+    if not result:
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+    return result
