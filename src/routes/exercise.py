@@ -46,6 +46,7 @@ def get_exercises(
 
     return result
 
+
 @router.get("/get_all_sets/{exercise}/", response_model=None)
 def get_exercises(
         exercise: str,  # Captura del parámetro de la ruta
@@ -54,7 +55,7 @@ def get_exercises(
 ):
     result = sql_dao_sets.get_all_sets(db, exercise, token)
 
-    if not result:
+    if result is None:
         raise HTTPException(status_code=401, detail="Invalid authentication credentials")
 
     return result
