@@ -32,5 +32,5 @@ docker save -o gymapp-api-v1.tar gymapp-api-v1
 
 echo -e "\n\n---- Enviando imagen ----\n"
 
-scp gymapp-api-v1.tar pi-server:/home/pi/gym
+scp gymapp-api-v1.tar pi-server:/home/pi/gymapp
 
